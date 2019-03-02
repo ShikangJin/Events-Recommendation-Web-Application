@@ -1,19 +1,21 @@
 # Events-Recommendation-Web-Application
 
-## Utilized Spring Boots to develop a Web Server that allowed users to search nearby events on web page, keep their favorite events in Back-End databases, and get recommendation according to those favorite events
+<p>
+	- Utilized Spring Boots to develop a Web Server that allowed users to search nearby events on web page, keep their favorite events in Back-End databases, and get recommendation according to those favorite events
+</p> 
 
-<br>
+<p>
+	- Used AJAX technology ( HTML , CSS , and JavaScript ) to create an interactive web page
+</p>
 
-## Used AJAX technology ( HTML , CSS , and JavaScript ) to create an interactive web page
+<p>
+	- Created RestControllers int Spring Boots as Back-End to handle HTTP requests and responses
+</p>
 
-<br>
+<p>
+	- Built a MySQL database to store users, items, and history data
+</p>
 
-## Created RestControllers int Spring Boots as Back-End to handle HTTP requests and responses
-
-<br>
-
-## Built a MySQL database to store users, items, and history data
-
-<br>
-
-## Deployed server to Amazon EC2 , then used ElasticSearch, Logstash, and Kibana to collect and visualize users data
+<p>
+	- Deployed server to Amazon EC2 , then used ElasticSearch, Logstash, and Kibana to collect and visualize users data
+</p>
