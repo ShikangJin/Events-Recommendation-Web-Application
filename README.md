@@ -9,7 +9,7 @@
 </p>
 
 <p>
-	- Created RestControllers int Spring Boots as Back-End to handle HTTP requests and responses
+	- Created RestControllers as Back-End to map and handle HTTP requests and responses
 </p>
 
 <p>
