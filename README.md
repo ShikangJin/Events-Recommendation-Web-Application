@@ -1,7 +1,7 @@
 # Events-Recommendation-Web-Application
 
 <p>
-	- Utilized Spring Boots to develop a Web Server that allowed users to search nearby events on web page, keep their favorite events in Back-End databases, and get recommendation according to those favorite events
+	- Developed a Spring Boot-based Restful web service that allowed users to search nearby events on web page, keep their favorite events in Back-End databases, and get recommendation according to those favorite events
 </p> 
 
 <p>
