@@ -3,6 +3,7 @@ package skjinnero.com.recommendation.entity;
 import java.util.List;
 
 public class ReturnObj {
+    String result;
     List<Item> arr;
     public ReturnObj(List<Item> arr) {
         this.arr = arr;
@@ -13,7 +14,14 @@ public class ReturnObj {
         return this.arr;
     }
 
-    public void setter(List<Item> list) {
+    public String getResult() {
+        return this.result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+    public void setArr(List<Item> list) {
         this.arr = arr;
     }
 }

@@ -1,16 +1,14 @@
 package skjinnero.com.recommendation.controllers;
 
+import org.springframework.web.bind.annotation.*;
 import skjinnero.com.recommendation.database.DatabaseCmd;
 import skjinnero.com.recommendation.entity.Item;
 import skjinnero.com.recommendation.entity.ReturnObj;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Set;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class SearchController {
 
@@ -22,17 +20,21 @@ public class SearchController {
         DatabaseCmd db = DatabaseCmd.getDB();
         Set<String> favorite = db.getFavoriteItemIds(userId);
         List<Item> items = db.searchItems(lat, lon, keyword);
+        ReturnObj res;
         try {
             for (Item item : items) {
                 if (favorite.contains(item.getItemId())) {
                     item.setFavorite();
                 }
             }
+            res = new ReturnObj(items);
+            res.setResult("SUCCESS");
+            System.out.println(items.size() + " Item found");
         } catch (Exception e) {
+            res = new ReturnObj(items);
+            res.setResult("ERROR");
             e.printStackTrace();
         }
-        ReturnObj res = new ReturnObj(items);
-        System.out.println(items.size() + " Item found");
         return res;
     }
 }

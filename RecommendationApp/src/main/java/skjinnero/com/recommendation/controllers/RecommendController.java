@@ -1,13 +1,10 @@
 package skjinnero.com.recommendation.controllers;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import skjinnero.com.recommendation.algorithm.GeoRecommendation;
 import skjinnero.com.recommendation.entity.ReturnObj;
 
-
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class RecommendController {
 
@@ -15,6 +12,8 @@ public class RecommendController {
     public ReturnObj getRecommendation(@RequestParam("user_id") String userId,
                                   @RequestParam("lat") double lat,
                                   @RequestParam("lon") double lon) {
-        return new ReturnObj(new GeoRecommendation().recommendItems(userId, lat, lon));
+        ReturnObj res = new ReturnObj(new GeoRecommendation().recommendItems(userId, lat, lon));
+        res.setResult("SUCCESS");
+        return res;
     }
 }
