@@ -1,55 +1,36 @@
 package skjinnero.com.recommendation.database;
 
+import org.springframework.context.annotation.ComponentScan;
 import skjinnero.com.recommendation.entity.Item;
 import skjinnero.com.recommendation.external.TicketMasterAPI;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@RestController
+@ComponentScan("skjinnero.com.recommendation.database")
 public class DatabaseCmd {
-//
-//    @Autowired
-//    private JdbcTemplate jdbcTemplate;
+
+    //不能在这里autowire 因为这个类会被别的类new autowire会失效
+    private JdbcTemplate jdbcTemplate;
+
     private static DatabaseCmd dbcmd;
 
-    private DatabaseCmd() {
+
+    private DatabaseCmd(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    public static DatabaseCmd getDB() {
+    public static DatabaseCmd getDB(JdbcTemplate jdbcTemplate) {
         if (dbcmd == null) {
-            dbcmd = new DatabaseCmd();
+            dbcmd = new DatabaseCmd(jdbcTemplate);
         }
         return dbcmd;
     }
-
-    private JdbcTemplate jdbcTemplate(DataSource dataSource) {
-        System.out.println("create jdbc");
-        return new JdbcTemplate(dataSource);
-    }
-
-    @Primary
-    private DataSource dataSource() {
-        return DataSourceBuilder
-                .create()
-                .username("root")
-                .password("klassjin24")
-                .url("jdbc:mysql://localhost:3306/recommendapp")
-                .driverClassName("com.mysql.cj.jdbc.Driver")
-                .build();
-    }
-
-
-    private JdbcTemplate jdbcTemplate = jdbcTemplate(dataSource());
 
     public Set<String> getFavoriteItemIds(String userId) {
         if (jdbcTemplate == null) {
@@ -82,7 +63,7 @@ public class DatabaseCmd {
     }
 
 
-    private void saveItem(Item item) {
+    public void saveItem(Item item) {
         try {
             // First, insert into items table
             String sql = "INSERT INTO items (item_id, name, rating, address, image_url, url, distance) VALUES (?,?,?,?,?,?,?)" +
@@ -109,7 +90,6 @@ public class DatabaseCmd {
 
 
     public void setFavoriteItems(String userId, List<String> itemIds) {
-
         try {
             for (String itemId : itemIds) {
                 String sql = "INSERT IGNORE INTO history (user_id, item_id) VALUES (?,?)";

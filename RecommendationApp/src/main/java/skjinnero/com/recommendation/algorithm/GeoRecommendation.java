@@ -1,15 +1,20 @@
 package skjinnero.com.recommendation.algorithm;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import skjinnero.com.recommendation.database.DatabaseCmd;
 import skjinnero.com.recommendation.entity.Item;
 
 import java.util.*;
 
 public class GeoRecommendation {
+    JdbcTemplate jdbcTemplate;
+    public GeoRecommendation(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
     public List<Item> recommendItems(String userId, double lat, double lon) {
         List<Item> recommendedItems = new ArrayList<>();
 
-        DatabaseCmd db = DatabaseCmd.getDB();
+        DatabaseCmd db = DatabaseCmd.getDB(jdbcTemplate);
 
         // Step 1 Get all favorited itemIds
         Set<String> favoritedItemIds = db.getFavoriteItemIds(userId);

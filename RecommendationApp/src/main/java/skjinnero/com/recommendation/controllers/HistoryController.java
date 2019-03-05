@@ -1,5 +1,7 @@
 package skjinnero.com.recommendation.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 import skjinnero.com.recommendation.database.DatabaseCmd;
 import skjinnero.com.recommendation.entity.Item;
@@ -12,10 +14,12 @@ import java.util.Set;
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class HistoryController {
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @RequestMapping(value="/history", method=RequestMethod.GET)
     public ReturnObj getHistory(@RequestParam("user_id") String userId) {
-        DatabaseCmd db = DatabaseCmd.getDB();
+        DatabaseCmd db = DatabaseCmd.getDB(jdbcTemplate);
         Set<Item> items = db.getFavoriteItems(userId);
         ReturnObj res = new ReturnObj(new ArrayList<>(items));
         res.setResult("SUCCESS");
@@ -29,7 +33,7 @@ public class HistoryController {
         try {
             List<String> itemId = new ArrayList<>();
             itemId.add(favorite);
-            DatabaseCmd.getDB().setFavoriteItems(userId, itemId);
+            DatabaseCmd.getDB(jdbcTemplate).setFavoriteItems(userId, itemId);
             res.setResult("SUCCESS");
 
         } catch (Exception e) {
@@ -46,7 +50,7 @@ public class HistoryController {
         try {
             List<String> itemId = new ArrayList<>();
             itemId.add(favorite);
-            DatabaseCmd.getDB().unsetFavoriteItems(userId, itemId);
+            DatabaseCmd.getDB(jdbcTemplate).unsetFavoriteItems(userId, itemId);
             res.setResult("SUCCESS");
         } catch (Exception e) {
             e.printStackTrace();
