@@ -1,6 +1,7 @@
 package skjinnero.com.recommendation.database;
 
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import skjinnero.com.recommendation.entity.Item;
 import skjinnero.com.recommendation.external.TicketMasterAPI;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,25 +13,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@ComponentScan("skjinnero.com.recommendation.database")
+@Service
 public class DatabaseCmd {
 
-    //不能在这里autowire 因为这个类会被别的类new autowire会失效
+    @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    private static DatabaseCmd dbcmd;
-
-
-    private DatabaseCmd(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public static DatabaseCmd getDB(JdbcTemplate jdbcTemplate) {
-        if (dbcmd == null) {
-            dbcmd = new DatabaseCmd(jdbcTemplate);
-        }
-        return dbcmd;
-    }
 
     public Set<String> getFavoriteItemIds(String userId) {
         if (jdbcTemplate == null) {
