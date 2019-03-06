@@ -1,4 +1,4 @@
-package skjinnero.com.recommendation.external;
+package skjinnero.com.recommendation.algorithm;
 
 //A copy from http://developer-should-know.com/post/87283491372/geohash-encoding-and-decoding-algorithm
 public class GeoHash {

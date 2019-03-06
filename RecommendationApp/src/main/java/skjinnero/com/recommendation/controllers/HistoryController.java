@@ -2,12 +2,11 @@ package skjinnero.com.recommendation.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import skjinnero.com.recommendation.database.DatabaseDao;
+import skjinnero.com.recommendation.dao.DatabaseDao;
 import skjinnero.com.recommendation.entity.Item;
 import skjinnero.com.recommendation.entity.ReturnObj;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -18,11 +17,11 @@ public class HistoryController {
 
     @RequestMapping(value="/history", method=RequestMethod.GET)
     public ReturnObj getHistory(@RequestParam("user_id") String userId) {
-        Set<Item> items = db.getFavoriteItems(userId);
+        List<Item> items = db.getFavoriteItems(userId);
         for (Item item : items) {
             item.setFavorite();
         }
-        ReturnObj res = new ReturnObj(new ArrayList<>(items));
+        ReturnObj res = new ReturnObj(items);
         res.setResult("SUCCESS");
         return res;
     }

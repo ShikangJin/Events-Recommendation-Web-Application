@@ -1,7 +1,9 @@
-package skjinnero.com.recommendation.database;
+package skjinnero.com.recommendation.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import skjinnero.com.recommendation.entity.ItemEntity;
 
@@ -25,6 +27,11 @@ public class ItemDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    public ItemEntity select(String item_id) {
+        String sql = "SELECT * FROM items WHERE item_id = \'" + item_id + "\'";
+        RowMapper<ItemEntity> rowMapper = new BeanPropertyRowMapper<>(ItemEntity.class);
+        return jdbcTemplate.queryForObject(sql, rowMapper);
     }
 }

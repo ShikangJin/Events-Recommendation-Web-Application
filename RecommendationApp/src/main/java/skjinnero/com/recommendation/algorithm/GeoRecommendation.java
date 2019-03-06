@@ -1,17 +1,17 @@
 package skjinnero.com.recommendation.algorithm;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import skjinnero.com.recommendation.database.DatabaseCmd;
+import skjinnero.com.recommendation.dao.DatabaseDao;
 import skjinnero.com.recommendation.entity.Item;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 @Service
 public class GeoRecommendation {
 
-    @Autowired
-    DatabaseCmd db;
+    @Resource
+    DatabaseDao db;
 
     public List<Item> recommendItems(String userId, double lat, double lon) {
         List<Item> recommendedItems = new ArrayList<>();

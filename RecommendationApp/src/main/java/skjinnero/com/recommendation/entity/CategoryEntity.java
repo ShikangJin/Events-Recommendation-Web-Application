@@ -1,17 +1,14 @@
 package skjinnero.com.recommendation.entity;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name="categories")
 @Data
-@IdClass(PrimaryKey.class)
+@IdClass(CategoryPrimaryKey.class)
 @DynamicUpdate
 public class CategoryEntity {
     @Id
@@ -32,10 +29,8 @@ public class CategoryEntity {
         this.item_id = item_id;
     }
 
-    public Set<String> getCategory() {
-        Set<String> categories = new HashSet<>();
-        categories.add(category);
-        return categories;
+    public String getCategory() {
+        return category;
     }
 
     public void setCategory(String category) {

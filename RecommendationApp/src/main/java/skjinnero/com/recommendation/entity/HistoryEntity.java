@@ -1,7 +1,6 @@
 package skjinnero.com.recommendation.entity;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Source;
 import org.hibernate.annotations.SourceType;

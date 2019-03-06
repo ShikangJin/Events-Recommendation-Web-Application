@@ -45,9 +45,8 @@ public class Item {
     public double getDistance() {
         return distance;
     }
-
     public boolean getFavorite() {
-        return this.favorite;
+        return favorite;
     }
 
     public void setFavorite() {
@@ -66,34 +65,34 @@ public class Item {
         this.distance = builder.distance;
     }
 
-    public Item(ItemEntity itemEntity, CategoryEntity categoryEntity) {
-        this.itemId = itemEntity.getItem_id();
-        this.name = itemEntity.getName();
-        this.rating = itemEntity.getRating();
-        this.address = itemEntity.getAddress();
-        this.categories = categoryEntity.getCategory();
-        this.imageUrl = itemEntity.getImage_url();
-        this.url = itemEntity.getUrl();
-        this.distance = itemEntity.getDistance();
-    }
+//    public Item(ItemEntity itemEntity, Set<String> categories) {
+//        this.itemId = itemEntity.getItem_id();
+//        this.name = itemEntity.getName();
+//        this.rating = itemEntity.getRating();
+//        this.address = itemEntity.getAddress();
+//        this.categories = categories;
+//        this.imageUrl = itemEntity.getImage_url();
+//        this.url = itemEntity.getUrl();
+//        this.distance = itemEntity.getDistance();
+//    }
 
-    // transfer Item to JSONObject
-    public JSONObject toJSONObject() {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("item_id", itemId);
-            obj.put("name", name);
-            obj.put("rating", rating);
-            obj.put("address", address);
-            obj.put("categories", new JSONArray(categories));
-            obj.put("image_url", imageUrl);
-            obj.put("url", url);
-            obj.put("distance", distance);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return obj;
-    }
+//    // transfer Item to JSONObject
+//    public JSONObject toJSONObject() {
+//        JSONObject obj = new JSONObject();
+//        try {
+//            obj.put("item_id", itemId);
+//            obj.put("name", name);
+//            obj.put("rating", rating);
+//            obj.put("address", address);
+//            obj.put("categories", new JSONArray(categories));
+//            obj.put("image_url", imageUrl);
+//            obj.put("url", url);
+//            obj.put("distance", distance);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return obj;
+//    }
 
     public static class ItemBuilder {
         private String itemId;

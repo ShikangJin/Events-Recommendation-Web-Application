@@ -1,9 +1,13 @@
-package skjinnero.com.recommendation.database;
+package skjinnero.com.recommendation.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import skjinnero.com.recommendation.entity.HistoryEntity;
+
+import java.sql.ResultSet;
+import java.util.HashSet;
+import java.util.Set;
 
 @Repository
 public class HistoryDao {
@@ -18,5 +22,10 @@ public class HistoryDao {
     public void delete(HistoryEntity historyEntity) {
         String sql = "DELETE FROM history WHERE user_id = ? AND item_id = ?";
         jdbcTemplate.update(sql, historyEntity.getUser_id(), historyEntity.getItem_id());
+    }
+
+    public Set<String> select(String user_id) {
+        String sql = "SELECT * FROM history WHERE user_id = \'" + user_id + "\'";
+        return new HashSet<>(jdbcTemplate.query(sql, (ResultSet rs, int rowNuw) -> rs.getString("item_id")));
     }
 }

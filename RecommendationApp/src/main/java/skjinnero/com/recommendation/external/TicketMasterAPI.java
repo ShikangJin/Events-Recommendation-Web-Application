@@ -1,6 +1,7 @@
 package skjinnero.com.recommendation.external;
 
 import org.springframework.stereotype.Service;
+import skjinnero.com.recommendation.algorithm.GeoHash;
 import skjinnero.com.recommendation.entity.Item;
 import org.json.JSONArray;
 import org.json.JSONException;

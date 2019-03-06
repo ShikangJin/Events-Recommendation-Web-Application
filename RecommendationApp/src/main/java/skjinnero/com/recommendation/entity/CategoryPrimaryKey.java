@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class PrimaryKey implements Serializable {
+public class CategoryPrimaryKey implements Serializable {
 
     private String item_id;
 

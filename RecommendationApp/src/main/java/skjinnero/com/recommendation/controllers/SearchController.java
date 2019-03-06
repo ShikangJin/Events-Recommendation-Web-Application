@@ -2,8 +2,7 @@ package skjinnero.com.recommendation.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import skjinnero.com.recommendation.database.DatabaseCmd;
-import skjinnero.com.recommendation.database.DatabaseDao;
+import skjinnero.com.recommendation.dao.DatabaseDao;
 import skjinnero.com.recommendation.entity.Item;
 import skjinnero.com.recommendation.entity.ReturnObj;
 

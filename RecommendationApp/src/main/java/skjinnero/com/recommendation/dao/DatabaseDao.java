@@ -1,10 +1,7 @@
-package skjinnero.com.recommendation.database;
+package skjinnero.com.recommendation.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import skjinnero.com.recommendation.entity.CategoryEntity;
 import skjinnero.com.recommendation.entity.HistoryEntity;
@@ -13,9 +10,7 @@ import skjinnero.com.recommendation.entity.ItemEntity;
 import skjinnero.com.recommendation.external.TicketMasterAPI;
 
 import javax.annotation.Resource;
-import javax.persistence.Table;
-import java.sql.ResultSet;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -61,33 +56,35 @@ public class DatabaseDao {
             itemDao.save(itemEntity);
 
             // Second, update categories table for each category.
-            CategoryEntity categoryEntity = new CategoryEntity();
-            categoryEntity.setItem_id(item.getItemId());
-            Set<String> set = item.getCategories();
-            String category = "";
-            if (set.size() > 0) {
-                for(String c: set) {
-                    category = c;
-                    break;
-                }
+            for (String category : item.getCategories()) {
+                CategoryEntity categoryEntity = new CategoryEntity();
+                categoryEntity.setItem_id(item.getItemId());
+                categoryEntity.setCategory(category);
+                categoryDao.save(categoryEntity);
             }
-            categoryEntity.setCategory(category);
-            categoryDao.save(categoryEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Set<Item> getFavoriteItems(String userId) {
-        Set<Item> items = new HashSet<>();
+    public List<Item> getFavoriteItems(String userId) {
+        List<Item> items = new ArrayList<>();
         Set<String> itemIds = getFavoriteItemIds(userId);
         try {
             for (String itemId : itemIds) {
-                String sql = "SELECT * FROM items WHERE item_id = \'" + itemId + "\'";
-                String sql2 = "SELECT category FROM categories WHERE item_id = \'" + itemId + "\'";
-                RowMapper<ItemEntity> rowMapper1 = new BeanPropertyRowMapper<>(ItemEntity.class);
-                RowMapper<CategoryEntity> rowMapper2 = new BeanPropertyRowMapper<>(CategoryEntity.class);
-                Item item = new Item(jdbcTemplate.queryForObject(sql, rowMapper1), jdbcTemplate.queryForObject(sql2, rowMapper2));
+                ItemEntity itemEntity = itemDao.select(itemId);
+                Set<String> categories = categoryDao.getCategories(itemId);
+                Item.ItemBuilder builder = new Item.ItemBuilder();
+                builder.setItemId(itemEntity.getItem_id());
+                builder.setName(itemEntity.getName());
+                builder.setAddress(itemEntity.getAddress());
+                builder.setCategories(categories);
+                builder.setDistance(itemEntity.getDistance());
+                builder.setImageUrl(itemEntity.getImage_url());
+                builder.setRating(itemEntity.getRating());
+                builder.setUrl(itemEntity.getUrl());
+                Item item = builder.build();
+//                item.setFavorite();
                 items.add(item);
                 // [ {“name”: “abcd”, “rating”: 0, “address”:”abcd”, ...},  ]
             }
@@ -99,17 +96,7 @@ public class DatabaseDao {
     }
 
     public Set<String> getFavoriteItemIds(String userId) {
-        String sql = "SELECT item_id FROM history WHERE user_id = \'" + userId + "\'";
-        try {
-
-            List<String> itemlist = jdbcTemplate.query(sql,
-                    (ResultSet rs, int rowNuw) -> rs.getString("item_id")
-            );
-            return new HashSet<>(itemlist);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new HashSet<>();
+        return historyDao.select(userId);
     }
 
     public void unsetFavoriteItems(String userId, List<String> itemIds) {
@@ -128,5 +115,9 @@ public class DatabaseDao {
             historyEntity.setUser_id(userId);
             historyDao.save(historyEntity);
         }
+    }
+
+    public Set<String> getCategories(String item_id) {
+        return categoryDao.getCategories(item_id);
     }
 }
