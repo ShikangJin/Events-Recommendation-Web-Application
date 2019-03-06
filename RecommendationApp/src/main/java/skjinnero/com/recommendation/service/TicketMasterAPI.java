@@ -1,4 +1,4 @@
-package skjinnero.com.recommendation.external;
+package skjinnero.com.recommendation.service;
 
 import org.springframework.stereotype.Service;
 import skjinnero.com.recommendation.algorithm.GeoHash;
@@ -7,8 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.client.RestTemplate;
-
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

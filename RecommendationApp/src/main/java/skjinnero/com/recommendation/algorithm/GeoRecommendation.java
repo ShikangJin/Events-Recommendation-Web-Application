@@ -1,9 +1,8 @@
 package skjinnero.com.recommendation.algorithm;
 
 import org.springframework.stereotype.Service;
-import skjinnero.com.recommendation.dao.DatabaseDao;
+import skjinnero.com.recommendation.service.DatabaseService;
 import skjinnero.com.recommendation.entity.Item;
-
 import javax.annotation.Resource;
 import java.util.*;
 
@@ -11,7 +10,7 @@ import java.util.*;
 public class GeoRecommendation {
 
     @Resource
-    DatabaseDao db;
+    DatabaseService db;
 
     public List<Item> recommendItems(String userId, double lat, double lon) {
         List<Item> recommendedItems = new ArrayList<>();

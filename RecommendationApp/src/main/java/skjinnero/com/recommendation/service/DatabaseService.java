@@ -1,21 +1,21 @@
-package skjinnero.com.recommendation.dao;
+package skjinnero.com.recommendation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import skjinnero.com.recommendation.dao.CategoryDao;
+import skjinnero.com.recommendation.dao.HistoryDao;
+import skjinnero.com.recommendation.dao.ItemDao;
 import skjinnero.com.recommendation.entity.CategoryEntity;
 import skjinnero.com.recommendation.entity.HistoryEntity;
 import skjinnero.com.recommendation.entity.Item;
 import skjinnero.com.recommendation.entity.ItemEntity;
-import skjinnero.com.recommendation.external.TicketMasterAPI;
-
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@Repository
-public class DatabaseDao {
+@Service
+public class DatabaseService {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -23,13 +23,13 @@ public class DatabaseDao {
     @Autowired
     TicketMasterAPI ticketMasterAPI;
 
-    @Resource
+    @Autowired
     ItemDao itemDao;
 
-    @Resource
+    @Autowired
     CategoryDao categoryDao;
 
-    @Resource
+    @Autowired
     HistoryDao historyDao;
 
     public List<Item> searchItems(double lat, double lon, String term) {

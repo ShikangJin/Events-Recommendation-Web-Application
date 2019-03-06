@@ -2,7 +2,7 @@ package skjinnero.com.recommendation.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import skjinnero.com.recommendation.dao.DatabaseDao;
+import skjinnero.com.recommendation.service.DatabaseService;
 import skjinnero.com.recommendation.entity.Item;
 import skjinnero.com.recommendation.entity.ReturnObj;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
 public class HistoryController {
 
     @Autowired
-    DatabaseDao db;
+    DatabaseService db;
 
     @RequestMapping(value="/history", method=RequestMethod.GET)
     public ReturnObj getHistory(@RequestParam("user_id") String userId) {
