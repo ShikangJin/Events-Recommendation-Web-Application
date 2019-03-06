@@ -1,5 +1,6 @@
 package skjinnero.com.recommendation.external;
 
+import org.springframework.stereotype.Service;
 import skjinnero.com.recommendation.entity.Item;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Service
 public class TicketMasterAPI {
     private static final String URL = "https://app.ticketmaster.com/discovery/v2/events.json";
     private static final String DEFAULT_KEYWORD = ""; // no restriction

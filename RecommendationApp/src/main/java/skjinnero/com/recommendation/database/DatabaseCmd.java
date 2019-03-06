@@ -2,6 +2,7 @@ package skjinnero.com.recommendation.database;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import skjinnero.com.recommendation.entity.HistoryEntity;
 import skjinnero.com.recommendation.entity.Item;
 import skjinnero.com.recommendation.external.TicketMasterAPI;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,30 +20,25 @@ public class DatabaseCmd {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private TicketMasterAPI ticketMasterAPI;
+
     public Set<String> getFavoriteItemIds(String userId) {
-        if (jdbcTemplate == null) {
-            System.out.println("jdbc null");
-        }
         String sql = "SELECT item_id FROM history WHERE user_id = \'" + userId + "\'";
         try {
 
-            List<String> itemlist = jdbcTemplate.query(sql, new RowMapper<String>(){
-                @Override
-                public String mapRow(ResultSet rs, int rowNuw) throws SQLException {
-                    String res = rs.getString("item_id");
-                    return res;
-                }
-            });
-            return new HashSet<String>(itemlist);
+            List<String> itemlist = jdbcTemplate.query(sql,
+                    (ResultSet rs, int rowNuw) -> rs.getString("item_id")
+            );
+            return new HashSet<>(itemlist);
         } catch (Exception e) {
             e.printStackTrace();
-            return new HashSet<String>();
+            return new HashSet<>();
         }
     }
 
     public List<Item> searchItems(double lat, double lon, String term) {
-        TicketMasterAPI tmAPI = new TicketMasterAPI();
-        List<Item> items = tmAPI.search(lat, lon, term);
+        List<Item> items = ticketMasterAPI.search(lat, lon, term);
         for (Item item : items) {
             saveItem(item);
         }
@@ -93,7 +89,7 @@ public class DatabaseCmd {
         try {
             for (String itemId : itemIds) {
                 String sql = "SELECT * FROM items WHERE item_id = \'" + itemId + "\'";
-                Item item = (Item)jdbcTemplate.queryForObject(sql, new RowMapper<Item>(){
+                Item item = jdbcTemplate.queryForObject(sql, new RowMapper<Item>(){
                     @Override
                     public Item mapRow(ResultSet rs, int rowNuw) throws SQLException {
                         Item.ItemBuilder builder = new Item.ItemBuilder();
@@ -125,13 +121,9 @@ public class DatabaseCmd {
 
         String sql = "SELECT category FROM categories WHERE item_id = \'" + itemId + "\'";
         try {
-            List<String> itemlist = jdbcTemplate.query(sql, new RowMapper<String>(){
-                @Override
-                public String mapRow(ResultSet rs, int rowNuw) throws SQLException {
-                    String res = rs.getString("category");
-                    return res;
-                }
-            });
+            List<String> itemlist = jdbcTemplate.query(sql, (ResultSet rs, int rowNuw) -> (
+                    rs.getString("category"))
+            );
             categories = new HashSet<>(itemlist);
 
         } catch (Exception e) {

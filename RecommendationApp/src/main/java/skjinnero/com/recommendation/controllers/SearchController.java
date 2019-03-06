@@ -3,6 +3,7 @@ package skjinnero.com.recommendation.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import skjinnero.com.recommendation.database.DatabaseCmd;
+import skjinnero.com.recommendation.database.DatabaseDao;
 import skjinnero.com.recommendation.entity.Item;
 import skjinnero.com.recommendation.entity.ReturnObj;
 
@@ -14,7 +15,7 @@ import java.util.Set;
 public class SearchController {
 
     @Autowired
-    DatabaseCmd db;
+    DatabaseDao db;
 
     @RequestMapping(value="/search", method= RequestMethod.GET)
     public ReturnObj search(@RequestParam("user_id") String userId,

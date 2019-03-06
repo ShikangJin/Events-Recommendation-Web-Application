@@ -66,6 +66,17 @@ public class Item {
         this.distance = builder.distance;
     }
 
+    public Item(ItemEntity itemEntity, CategoryEntity categoryEntity) {
+        this.itemId = itemEntity.getItem_id();
+        this.name = itemEntity.getName();
+        this.rating = itemEntity.getRating();
+        this.address = itemEntity.getAddress();
+        this.categories = categoryEntity.getCategory();
+        this.imageUrl = itemEntity.getImage_url();
+        this.url = itemEntity.getUrl();
+        this.distance = itemEntity.getDistance();
+    }
+
     // transfer Item to JSONObject
     public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();

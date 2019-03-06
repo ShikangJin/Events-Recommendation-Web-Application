@@ -2,10 +2,9 @@ package skjinnero.com.recommendation.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import skjinnero.com.recommendation.database.DatabaseCmd;
+import skjinnero.com.recommendation.database.DatabaseDao;
 import skjinnero.com.recommendation.entity.Item;
 import skjinnero.com.recommendation.entity.ReturnObj;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -15,11 +14,14 @@ import java.util.Set;
 public class HistoryController {
 
     @Autowired
-    DatabaseCmd db;
+    DatabaseDao db;
 
     @RequestMapping(value="/history", method=RequestMethod.GET)
     public ReturnObj getHistory(@RequestParam("user_id") String userId) {
         Set<Item> items = db.getFavoriteItems(userId);
+        for (Item item : items) {
+            item.setFavorite();
+        }
         ReturnObj res = new ReturnObj(new ArrayList<>(items));
         res.setResult("SUCCESS");
         return res;
